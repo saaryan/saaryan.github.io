@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project 1 </title>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<style>
+		body {
+			font-family: Arial;
+			font-size: 20px;
+
+		}
+    	text { 
+			font-family: Arial; 
+			font-size: 17px;
+		}
+
+		.axis path, .axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.tick text {
+			fill: black;
+			font-size: 13px;
+		}
+
+		rect {
+			stroke: white;
+		}
+
+		circle {
+			fill: #dfb8ff;
+		}
+	</style>
+</head>
+<body>
+
+	<p>John Snow's Cholera Map</p>
+	<svg id="main" width="650" height="600">
+	</svg>
+
+	
+	<script>
+
+		var CHART_SIZE = 250;
+
+	
+
+		d3.json("streets.json", function(streets)
+		{ 
+			var pathGenerator = d3.svg.line()
+				.x(function(d) { return ((d.x)*30); })
+				.y(function(d) { return ((d.y)*30); })
+				
+				
+			d3.select("svg").selectAll("path")
+				.data(streets)
+				.enter().append("path")
+				.attr("d", function(seg) {
+					return pathGenerator(seg);})
+    			.style('fill', 'none')
+    			.style('stroke', 'steelblue')
+    			.style('stroke-width', '3px');
+					
+		});
+		
+		d3.csv('pumps.csv', function(pumps) 
+		{
+				
+			
+			var thePumps = d3.select("svg").selectAll("circle")
+				
+			.data(pumps)
+			.enter().append('circle')
+			.attr('r', '5px' )
+			.style('fill', 'red')
+			.attr('cx', function(d) { return ((d.x)*30)})
+			.attr('cy', function(d) { return ((d.y)*30)})
+			
+
+		});
+		
+		d3.csv('deathdays.csv', function(died) 
+		{
+			
+			
+			var dead = d3.select("svg").selectAll("circle")
+				
+			.data(died)
+			.enter().append('circle')
+			.attr('r', '5px')
+			.style('fill', 'green')
+			.attr('cx', function(d) { return ((d.date)*30)})
+			.attr('cy', function(d) { return ((d.deaths)*30)})
+			
+
+		});
+		
+		d3.csv('deaths_age_sex.csv', function(das) 
+		{
+				
+			
+			var d_a_s = d3.select("svg").selectAll("circle")
+				
+			.data(das)
+			.enter().append('circle')
+			.attr('r', '5px' )
+			//.style('fill', 'orange')
+			.attr('cx', function(d) { return ((d.x)*30)})
+			.attr('cy', function(d) { return ((d.y)*30)})
+			.attr('cw', style = 'fill', 'orange', function(d) { return ((d.age)*30)})
+				
+			.attr('cz', function(d) { return ((d.gender)*30)})
+				.style('fill', 'blue')
+			
+
+		});
+		
+
+		
+			
+
+		
+
+	</script>
+</body>
+
+
+</html>
